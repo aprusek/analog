@@ -1,0 +1,91 @@
+# Initial thoughs
+
+
+SET TIME 1
+SET MAX 10
+SET INVERT OFF
+
+CONSTANT sigma = 10
+CONSTANT rho = 28
+CONSTANT beta = 8 / 3
+
+# dx = sigma * ( y - x ) 
+#
+E1 = SUM( Y , -X )
+M1 = MULTIPLY( E1 , sigma )
+X  = INTEGRATE (M1)
+
+# dy = x * ( rho - z ) - y
+#
+E2 = SUM( rho , -Z )
+M2 = MULTIPLY ( X , M1 )
+E3 = SUM( E2 , -Y )
+Y  = INTEGRATE( E3 )
+
+# dz = x * y - beta * z
+#
+M3 = MULTIPLY( X , Y )
+S4 = SCALE( Z , beta )
+E4 = SUM( M3 , -M4 )
+Z  = INTEGRATE( E4 )
+
+PLOT(X,Y)
+
+#------------------------------------------
+#
+FUNCTION SQRT( X )
+M1 = MULTIPLY( S1 , S1 )
+S1 = SUM( M1 , X )
+RETURN( S1 )
+
+
+FUNCTION SQR( X )
+M1 = MULTIPLY( X , X )
+RETURN( M1 )
+
+FUNCTION DIVIDE( X , Y ) #divide x by y
+# E1 = X / Y
+E1 = SUM( X , M1 )
+M1 = MULTIPLY( E1 , Y )
+RETURN ( E1 )
+
+
+FUNCTION CUBE( X )
+# M2 = X * X * X
+M1 = MULTIPLY( X , X )
+M2 = MULTIPLY( X , M1 )
+RETURN(M2)
+       
+FUNCTION SIN()
+SET INVERT ON
+X = INTEGRATE( J )
+Y = INTEGRATE( X )
+J = INVERT( Y )
+RETURN( Y )
+#
+#------------------------------------------
+#
+
+
+#------------------------------------------
+#
+# INVERT(var)
+# MAX( var , value ) ceiling
+# MIN( var , value ) floor
+# ABS( var )         absolute
+# SGN( var , zhist% ) +1 if +ve, -1 if -ve, 0 if 0
+# COMP( X , Y )       +1 if x + y > 0
+# DIODE( X )
+# ZENER( X )
+# LOG( var )         log
+# ALOG( var )        anti-log
+# DIFF( var )        differtiate
+# DIV( X , Y )       divide X by Y
+# F2V( X, f0 , f1 , v0)   
+# V2F( X, f0 , f1 , v0)
+#
+# INPUT( 1 )
+# OUTPUT( X , 1 )
+# PRINT(X,Y,Z)
+# PLOT( X , Y)
+# SAMPLE(XXXms)		SAMPLE each XXXms
