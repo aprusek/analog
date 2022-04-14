@@ -1,37 +1,57 @@
 # Initial thoughs
 
 
+# Analog = Functional language to describe real world
+# phenomenon using analog components which can
+# solve multiple differential equations in the time domain
+
 SET TIME 1
 SET MAX 10
 SET INVERT OFF
 
+#------------------------------------------
+# Lorenz Attractor
+#
 CONSTANT sigma = 10
 CONSTANT rho = 28
 CONSTANT beta = 8 / 3
 
 # dx = sigma * ( y - x ) 
 #
-E1 = SUM( Y , -X )
+X1 = INVERT(X)
+E1 = SUM( Y , X1 )
 M1 = MULTIPLY( E1 , sigma )
 X  = INTEGRATE (M1)
 
 # dy = x * ( rho - z ) - y
 #
-E2 = SUM( rho , -Z )
-M2 = MULTIPLY ( X , M1 )
-E3 = SUM( E2 , -Y )
+Z1 = INVERT(Z)
+E2 = SUM( rho , Z )
+M2 = MULTIPLY( X , M1 )
+Y1 = INVERT (Y)
+E3 = SUM( E2 , J1 )
 Y  = INTEGRATE( E3 )
 
 # dz = x * y - beta * z
 #
 M3 = MULTIPLY( X , Y )
 S4 = SCALE( Z , beta )
-E4 = SUM( M3 , -M4 )
+S5 = INVERT( S4)
+E4 = SUM( M3 , S5 )
 Z  = INTEGRATE( E4 )
 
-PLOT(X,Y)
+OUTPUT( X , Y , Z )
+
+#
+# End Lorenz Attractor
+#------------------------------------------
+
+
 
 #------------------------------------------
+# Function Definition Sample
+#
+# Note: All variable are local tothe function
 #
 FUNCTION SQRT( X )
 M1 = MULTIPLY( S1 , S1 )
@@ -44,48 +64,60 @@ M1 = MULTIPLY( X , X )
 RETURN( M1 )
 
 FUNCTION DIVIDE( X , Y ) #divide x by y
-# E1 = X / Y
 E1 = SUM( X , M1 )
 M1 = MULTIPLY( E1 , Y )
 RETURN ( E1 )
 
 
 FUNCTION CUBE( X )
-# M2 = X * X * X
 M1 = MULTIPLY( X , X )
 M2 = MULTIPLY( X , M1 )
-RETURN(M2)
-       
+RETURN( M1)
+      
+ 
 FUNCTION SIN()
 SET INVERT ON
 X = INTEGRATE( J )
 Y = INTEGRATE( X )
 J = INVERT( Y )
 RETURN( Y )
-#
-#------------------------------------------
-#
+
 
 
 #------------------------------------------
-#
-# INVERT(var)
+# ANALOG language
+# Manintain N(1) complexity
+# Functions must be able to be produced with
+# analog electrical circuits
+# 
+# --------Magnitude and sign
+# ABS( var )         absolute value
 # MAX( var , value ) ceiling
 # MIN( var , value ) floor
-# ABS( var )         absolute
 # SGN( var , zhist% ) +1 if +ve, -1 if -ve, 0 if 0
-# COMP( X , Y )       +1 if x + y > 0
+# INVERT( var )
+#
+#--------Histersis, Comparisons and Limits 
+# COMP( X , Y )      +1 if x + y > 0
 # DIODE( X )
 # ZENER( X )
+#
+#--------Math Functions
 # LOG( var )         log
 # ALOG( var )        anti-log
-# DIFF( var )        differtiate
-# DIV( X , Y )       divide X by Y
-# F2V( X, f0 , f1 , v0)   
-# V2F( X, f0 , f1 , v0)
+# MULTIPLY( var ,var )
+# DIVIDE( var , var )
+# SUM( var, var)
+# SCALE( var , const )
 #
-# INPUT( 1 )
-# OUTPUT( X , 1 )
-# PRINT(X,Y,Z)
-# PLOT( X , Y)
-# SAMPLE(XXXms)		SAMPLE each XXXms
+#--------Functions Calculas
+# DIFF( var )        	differtiate
+# INTEGRATE ( var)	Integrate
+#
+#--------Functions Frequency Domain
+# F2V( var, minF, maxF )         Frequency to Voltage
+# V2F( var, minF, maxF )         Voltage to Frequency
+#
+#--------Delays and Filters
+# DELAY( var , delay[ms] ) Delay Line
+#
