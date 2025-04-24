@@ -1,0 +1,16 @@
+Definition ::= (Patch | Declaration | Comment )*
+
+Comment ::= "#" String
+
+Declaration  ::= DeviceType '='  DeviceID "(" Port ")" ( ',' DeviceID "(" Port ")" )? 
+DeviceType ::= "Integrator" | "Summer" | "Inverter" | "Multiply"
+DeviceID ::= Alpha  (  Digit | Alpha )*
+Port ::= Number
+
+Patch ::= DeviceID "->" DeviceID "(" Port ")"
+
+String ::= (WhiteSpace | Special | Digit | Alpha)*
+Number ::= Digit+ "."? (Digit+)?
+Digit ::= [0-9]
+Alpha ::= [A-Z]
+WhiteSpace ::= ( "Space" | "Tab" )*
