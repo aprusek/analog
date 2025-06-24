@@ -4,41 +4,23 @@ LINE ::= ASSIGNMENT | PARAMETER | STATEMENT | FUNCTION | COMMENT
 
 
 ASSIGNMENT ::= ""
-
 PARAMETER ::= ""
-
 STATEMENT ::= ""
-
 FUNCTION ::= "FUNCTION"  NAME DECLARATION   | STATEMENT | RETURN
-
 COMMENT ::= "#" (ALPHA|NUMBER)
 
-
-
-
-
 ALPHA ::= Letter*
-
 NUMBER ::= Digit*
-
 VARIABLE ::= ALPHA ( ALPHA | NUMBER )*
-
 FUNCTION ::= DECLARATION  STATEMENT* + RETURN
-/*
 
+/*
 CONSTANT ::== NUMBER
 FUNCTION
-
 NUMBER
-
 ALPHA
-
 VARIBALE ::= ALPHA NUMBER
-
 COMMENT
-
-
 STATEMENT ::= ( "ABS" | )
-
 PredefinedEntityRef	   ::=   	"&" ("lt" | "gt" | "amp" | "quot" | "apos") ";"
 */
