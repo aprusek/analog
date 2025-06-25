@@ -27,3 +27,24 @@ STATEMENT ::= ( "ABS" | )
 PredefinedEntityRef	   ::=   	"&" ("lt" | "gt" | "amp" | "quot" | "apos") ";"
 
 */
+
+
+this works
+
+program ::= line*
+
+line ::= definition | assignment | function_def | comment
+definition ::= 'set' value '=' char char*
+assingment ::= node '=' function 
+function ::= function_name '(' node ( ',' node )* ')'
+
+function_def ::= 'function' function_name '(' node ( ',' node )* ')' 'NL'
+                ( function_name '(' node ( ',' node )* ')' )+ 'NL'
+                'return (' node ')'
+
+comment ::= '#' char*
+
+node ::= alpha ( alpha | digits)*
+alpha ::= [A-Za-z]
+digit ::= [0-9]
+char ::= [#x20-#x7f]
