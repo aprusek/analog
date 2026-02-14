@@ -1,0 +1,79 @@
+/* Analog Computer Language Grammar */
+/* Compatible with https://www.bottlecaps.de/rr/ui */
+
+Program ::= Statement*
+
+Statement ::= SetStatement
+            | ConstantDeclaration
+            | Assignment
+            | FunctionDefinition
+            | OutputStatement
+            | Comment
+
+SetStatement ::= 'SET' SetParameter Value
+
+SetParameter ::= 'TIME' | 'MAX' | 'INVERT'
+
+Value ::= Number | 'ON' | 'OFF'
+
+ConstantDeclaration ::= 'CONSTANT' Identifier '=' Expression
+
+Assignment ::= Identifier '=' Expression
+
+OutputStatement ::= 'OUTPUT' '(' ArgumentList ')'
+
+FunctionDefinition ::= 'FUNCTION' Identifier '(' ParameterList? ')' Statement* ReturnStatement
+
+ReturnStatement ::= 'RETURN' '(' Identifier ')'
+
+ParameterList ::= Identifier (',' Identifier)*
+
+ArgumentList ::= Expression (',' Expression)*
+
+Expression ::= Term (('+' | '-') Term)*
+
+Term ::= Factor (('*' | '/') Factor)*
+
+Factor ::= Identifier
+         | Number
+         | FunctionCall
+         | '(' Expression ')'
+
+FunctionCall ::= AnalogFunction '(' ArgumentList ')'
+
+AnalogFunction ::= MagnitudeFunction
+                 | HysteresisFunction
+                 | MathFunction
+                 | CalculusFunction
+                 | FrequencyFunction
+                 | DelayFunction
+                 | Identifier
+
+MagnitudeFunction ::= 'ABS' | 'MAX' | 'MIN' | 'SGN' | 'INVERT'
+
+HysteresisFunction ::= 'COMP' | 'DIODE' | 'ZENER'
+
+MathFunction ::= 'LOG' | 'ALOG' | 'MULTIPLY' | 'DIVIDE' | 'SUM' | 'SCALE'
+
+CalculusFunction ::= 'DIFF' | 'INTEGRATE'
+
+FrequencyFunction ::= 'F2V' | 'V2F'
+
+DelayFunction ::= 'DELAY'
+
+Identifier ::= Letter (Letter | Digit | '_')*
+
+Number ::= Integer | Float
+
+Integer ::= Digit+
+
+Float ::= Integer '.' Integer Exponent?
+        | Integer Exponent
+
+Exponent ::= ('e' | 'E') ('+' | '-')? Integer
+
+Digit ::= [0-9]
+
+Letter ::= [a-zA-Z]
+
+Comment ::= '#'
